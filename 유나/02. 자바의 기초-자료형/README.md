@@ -660,3 +660,678 @@ public class Sample0318 {
 ```
 ArrayIndexOutOfBoundsException
 ```
+
+# 03-07. 리스트(List)
+배열과 비슷하지만 편리한 기능이 더 많은 자료형  
+크기가 정해져 있지 않아 원하는 만큼 값을 담을 수 있음
+- 리스트 자료형에는 ArrayList, Vector, LinkedList 등이 있다.
+
+## ArrayList
+리스트 자료형에서 가장 일반적으로 사용하는 ArrayList
+
+### add
+요솟값 추가  
+야구 선수가 공을 총 3번 던졌는데 각각 시속 138, 129, 142인 경우
+- ArrayList 사용하려면 import java.util,ArrayList와 같은 import문을 작성해야한다.
+- import문은 다른 패키지나 클래스를 현재 코드에서 사용하기 위해 선언하는 문장
+```java
+import java.util.ArrayList;
+
+public class Sample0319 {
+	public static void main(String[] args) {
+		ArrayList pitches = new ArrayList();
+		pitches.add("138");
+		pitches.add("129");
+		pitches.add("142");
+		// 첫번째 위치에 133 추가하고 싶다면
+		pitches.add(0, "133");
+		// 두번재 위치에 144을 추가하고 싶다면
+		pitches.add(1, "133");
+	}
+}
+```
+- ArrayList<String> pitches = new ArrayList<>(); 처럼 면확하게 표현하는 것을 권고
+
+### get
+특정 인덱스의 값을 추출할 수 있음
+```java
+public class Sample0319 {
+	public static void main(String[] args) {
+		ArrayList pitches = new ArrayList();
+		pitches.add("138");
+		pitches.add("129");
+		pitches.add("142");
+		System.out.println(pitches.get(1)); // 두번째 위치하는 값 129 출력
+	}
+}
+```
+
+### size
+ArrayList의 요소의 개수를 리턴
+```java
+import java.util.ArrayList;
+
+public class Sample0320 {
+	public static void main(String[] args) {
+		ArrayList pitches = new ArrayList();
+		pitches.add("130");
+		pitches.add("129");
+        pitches.add("142");
+        System.out.println(pitches.size());
+		// 3
+	}
+}
+```
+
+### contains
+리스트 안에 해당 항목이 있는지 판별해 그 결과를 boolean으로 리턴하는 메서드
+```java
+import java.util.ArrayList;
+
+public class Sample0320 {
+	public static void main(String[] args) {
+		ArrayList pitches = new ArrayList();
+		pitches.add("130");
+		pitches.add("129");
+        pitches.add("142");
+		System.out.println(pitches.contains("142"));
+		// true
+	}
+}
+```
+
+### remove
+2가지 방식 존재
+1. remove(객체)
+- 리스트에서 객체에 해당하는 항목을 삭제한 뒤, 그 결과를 true or false를 리턴
+2. remove(인덱스)
+- 인덱스에 해당하는 항목을 사젝한 뒤 그 항목을 리턴
+```java
+import java.util.ArrayList;
+
+public class Sample0320 {
+	public static void main(String[] args) {
+		ArrayList pitches = new ArrayList();
+		pitches.add("130");
+		pitches.add("129");
+        pitches.add("142");
+		System.out.println(pitches.remove("129")); // true
+        System.out.println(pitches.remove(0)); // 130
+	}
+}
+```
+
+## 제네릭스(generics)
+자료형을 안전하게 사용할 수 있도록 만들어 주는 기능  
+- 제네릭스를 사용하면 자료형을 강제로 바꿀 때 생길 수 있는 캐스팅 오류를 줄일 수 있다.
+
+- 일반적인 방식: ArrayList<String> pitches = new ArrayList<String>();
+- 선호되는 방식: ArrayList<String> pitched = new ArrayList<>();
+
+제네릭스 도입 전후의 차이 : ArryList 다음에 <string> 유무 차이
+- ArrayList에 담을 수 있는 자료형은 String 뿐이다! 를 좀더 명확하게 체크할 수 있다는 장점
+
+```java
+import java.util.ArrayList;
+public class Sample0321 {
+	public static void main(String[] args) {
+		ArrayList pitches = new ArrayList();
+		pitches.add("138");
+		pitches.add("129");
+		
+		String one = (String) pitches.get(0); // gudqusghks
+		String two = (String) pitches.get(1);
+	}
+}
+```
+- 제네릭스를 사용하지 않으면 ArrayList에 추가하는 객체가 Object 자료형으로 인식
+- Object 자료형 : 모든 객체가 상속하고 있는 가장 기본적인 자료형
+- 값을 넣을때는 문제가 없지만, 값을 **가져올 떄** 매번 Objecct -> String 자료형으로 형변환(casting)을 해야한다
+- String 외 다른 객체도 넣을 수 있어서 형변황 오류 발샐 가능
+
+제네릭스를 이용한 코드
+```java
+import java.util.ArrayList;
+public class Sample0322 {
+	public static void main(String[] args) {
+		ArrayList<String> pitches = new ArrayList<>();
+		pitches.add("138");
+		pitches.add("129");
+		
+		String one = pitches.get(0); // 형변환이 필요 없다.
+		String two = pitches.get(1);
+	}
+}
+```
+
+## 다양한 방법으로 ArrayList 만들기
+add 메소드를 사용하면 ArrayList 객체에 요소를 추가할 수 있다.
+```java
+import java.util.ArrayList;
+public class Sampel0323 {
+	public static void main(String[] args) {
+		ArrayList<String> pitches = new ArrayList<>();
+		pitches.add("130");
+		pitches.add("129");
+        pitches.add("142");
+        System.out.println(pitches);
+	}
+}
+```
+```
+[138, 129, 142]
+```
+
+문자열 배열이 있는 경우 더 편하게 생성 가능 : asList
+```java
+import java.util.ArrayList;
+import java.util.Arrays;
+
+public class Sampel0324 {
+	public static void main(String[] args) {
+		String[] data = {"138", "129", "142"}; // 이미 투구 수 데이터 배열이 있다.
+		ArrayList<String> pitches = new ArrayList<>(Arrays.asList(data));
+		System.out.println(pitches);
+		
+	}
+}
+```
+
+```
+[138, 129, 142]
+```
+
+String 배열 대신에 String 자료형 여러개 전달하여 생성도 가능
+```java
+import java.util.ArrayList;
+import java.util.Arrays;
+
+public class Sampel0324 {
+	public static void main(String[] args) {
+		ArrayList<String> pitches = new ArrayList<>(Arrays.asList("138","129","142"));
+		System.out.println(pitches);
+		
+	}
+}
+```
+
+## String.join
+AttauList의 각 요소를 1개의 문자열로 작성
+```java
+import java.util.ArrayList;
+import java.util.Arrays;
+
+public class Sample0325 {
+	public static void main(String[] args) {
+		ArrayList<String> pitches = new ArrayList<>(Arrays.asList("138","129","142"));
+		String result = "";
+		for ( int i = 0; i < pitches.size(); i++) {
+			result += pitches.get(i);
+			result += ","; // 콤마를 추가한ㄷ.
+		}
+		result = result.substring(0, result.length()-1); // 마지막 콤마 제거
+		System.out.println(result);
+	}
+}
+```
+```
+138,129,142
+```
+- 요소 개수만큼 루프를 돌면서 뒤에 콤마를 더한 뒤, 마지막 콤마를 제거하는 방법. 까다로움
+
+String.join("구분자", 리스트 객체)
+```java
+import java.util.ArrayList;
+import java.util.Arrays;
+
+public class Sample0326 {
+	public static void main(String[] args) {
+		ArrayList<String> pitches = new ArrayList<>(Arrays.asList("138","129","142"));
+		String result = String.join(",", pitches);
+		System.out.println(result);
+	}
+}
+```
+```
+138,129,142
+```
+
+문자열 배열에서도 사용할 수 있다.
+```java
+import java.util.ArrayList;
+import java.util.Arrays;
+
+public class Sample0327 {
+	public static void main(String[] args) {
+		String[] pitches = new String[]{"138","129","142"};
+		String result = String.join(",", pitches);
+		System.out.println(result);
+	}
+}
+```
+
+## 리스트 정렬하기
+리스트의 sort 메서드 사용
+```java
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Comparator;
+
+public class Sample0328 {
+	public static void main(String[] args) {
+		ArrayList<String> pitches = new ArrayList<>(Arrays.asList("138", "129", "142"));
+		pitches.sort(Comparator.naturalOrder()); // 오름차순으로 정렬
+		System.out.println(pitches);
+	}
+}
+```
+```
+[129, 138, 142]
+```
+정렬 기준
+- 오름차순(순방향) 정렬 - Compartor.naturalOrder()
+- 내림차순(역방향) 정렬 - Compartor.reverseOrder()
+
+# 02-08 맵(map)
+대응 관계를 쉽게 표현할 수 있게 하는 자료형
+- associative array 또는 hash
+- 키와 값을 한쌍으로 작는 자료형
+
+|키(key)|값(value)|
+|:------:|:---:|
+|people|사람|
+|baseball|야구|
+
+## HashMap
+### put
+key와 value를 추가할 수 있음
+```java
+import java.util.HashMap;
+
+public class Sample0329 {
+	public static void main(String[] args) {
+		// <key, value> string
+		HashMap<String, String> map = new HashMap<>();
+		map.put("people", "사람");
+		map.put("baseball", "야구");
+	}
+}
+```
+
+### get
+key에 해당하는 value를 얻을 때 사용
+
+map객체의 key인 people에 대응하는 value인 사람이 출력
+```java
+import java.util.HashMap;
+public class Sample0330 {
+	public static void main(String[] args) {
+		HashMap<String, String> map = new HashMap<>();
+		map.put("people", "사람");
+		map.put("baseball", "야구");
+		System.out.println(map.get("people")); // "사람" 출력
+	}
+}
+```
+```
+사람
+```
+
++) getOrDefalut
+맵의 key에 해당하는 value가 없을 때 get 메서드를 사용하면 null 리턴
+- null 대신 기본값(default)을 얻고 싶다면, getOrDefalut
+```java
+import java.util.HashMap;
+public class Sample0330 {
+	public static void main(String[] args) {
+		HashMap<String, String> map = new HashMap<>();
+		map.put("people", "사람");
+		map.put("baseball", "야구");
+		System.out.println(map.get("java"));
+		System.out.println(map.getOrDefault("java", "자바"));
+	}
+}
+```
+```
+null
+자바
+```
+
+### containsKey
+맵에 해당key가 있는지를 참(true) 또는 거짓(false)으로 리턴
+```java
+import java.util.HashMap;
+public class Sample0331 {
+	public static void main(String[] args) {
+		HashMap<String, String> map = new HashMap<>();
+		map.put("people", "사람");
+		map.put("baseball", "야구");
+		System.out.println(map.containsKey("people"));
+	}
+}
+```
+```
+true
+```
+
+### remove
+맵의 항목을 삭제하는 매서드. 해당 key의 항목을 삭제한 후 value 값을 리턴
+```java
+import java.util.HashMap;
+public class Sample0331 {
+	public static void main(String[] args) {
+		HashMap<String, String> map = new HashMap<>();
+		map.put("people", "사람");
+		map.put("baseball", "야구");
+		System.out.println(map.remove("people")); // 사람
+	}
+}
+```
+
+### size
+맵 요소의 개수를 리턴
+```java
+import java.util.HashMap;
+public class Sample0331 {
+	public static void main(String[] args) {
+		HashMap<String, String> map = new HashMap<>();
+		map.put("people", "사람");
+		map.put("baseball", "야구");
+		System.out.println(map.remove("people"));
+		System.out.println(map.size()); // 1
+	}
+}
+```
+
+### keySet
+맵의 모든 key를 모아서 집합 자료형으로 리턴
+- 집합 자료형은 리스트 자료형으로 바꾸어 사용할 수 있음
+```java
+import java.util.HashMap;
+public class Sample0332 {
+	public static void main(String[] args) {
+		HashMap<String, String> map = new HashMap<>();
+		map.put("people", "사람");
+		map.put("baseball", "야구");
+		System.out.println(map.keySet());
+	}
+}
+```
+```
+[baseball, people]
+```
+```java
+ArrayList<String> keyList = new ArrayList<>(map.keySet());
+```
+
++) LinkedHashMap과 TreeMap
+맵의 가장 큰 특징은 수선에 의존하지 않는다는 점 !  
+하지만 정렬하고 싶다면?
+- LinkedHashMap: 입력된 순서대로 데이터를 저장한다.
+- TreeMap: 입력된 key의 오름차순으로 데이터를 저장한다.
+
+# 02-09 집합(Set)
+집합과 관련된 것을 쉽게 처리하기 위해 만든 것
+- HashSet, TreeSet, LinkedSet
+
+```java
+import java.util.Arrays;
+import java.util.HashSet;
+
+public class Sample0333 {
+	public static void main(String[] args) {
+		HashSet<String> set = new HashSet<>(Arrays.asList("H","e","l","l","o"));
+		System.out.println(set);
+	}
+}
+```
+```
+[e, H, l, o] 
+```
+
+## 집합 자료형을 2가지 특징
+1. 중복을 허용하지 않는다.
+2. 순서가 없다. (unorded)
+
+리스트나 배열은 순서가 있기(ordered)때문에 인덱싱을 통해 자료형의 값을 얻을 수 있지만, 집합 자료형은 순서가 없기(unorderd)때문에 인덱싱으로 값을 얻을 수 없다.
+> 집합 자료형은 중복을 허용하지 않기 때문에 자료형의 중복을 제거하기 위한 필터 역할로 종종 사용한다.
+
+## 교집합, 합집합, 차집합 구하기
+```java
+import java.util.Arrays;
+import java.util.HashSet;
+
+public class Sample0334 {
+	public static void main(String[] args) {
+		HashSet<Integer> s1 = new HashSet<>(Arrays.asList(1,2,3,4,5,6));
+		HashSet<Integer> s2 = new HashSet<>(Arrays.asList(4,5,6,7,8,9));
+		HashSet<Integer> intersection = new HashSet<>(s1);
+		intersection.retainAll(s2); // 교집합 수행
+		System.out.println(intersection);
+		
+		HashSet<Integer> union = new HashSet<>(s1);
+		union.addAll(s2); // 합집합 수행
+		System.out.println(union);
+		
+		HashSet<Integer> substract = new HashSet<>(s1);
+		substract.removeAll(s2); // 차집합 수행
+		System.out.println(substract);
+	}
+}
+```
+```
+[4, 5, 6]
+[1, 2, 3, 4, 5, 6, 7, 8, 9]
+[1, 2, 3]
+```
+
+## 집합 자료형과 관련된 메서드
+### add 집합 자료형에 값을 추가할 때 사용
+```java
+import java.util.HashSet;
+public class Sample0335 {
+	public static void main(String[] args) {
+		HashSet<String> set = new HashSet<>();
+		set.add("jump");
+		set.add("to");
+		set.add("java");
+		System.out.println(set);
+	}
+}
+```
+```
+[java, to, jump]
+```
+### addAll
+값을 한꺼번에 여러 개 추가할 때 사용
+```java
+import java.util.Arrays;
+import java.util.HashSet;
+public class Sample0335 {
+	public static void main(String[] args) {
+		HashSet<String> set = new HashSet<>();
+		set.add("jump");
+		set.addAll(Arrays.asList("to", "java"));
+		System.out.println(set);
+	}
+}
+```
+```
+[java, to, jump]
+```
+
+### remoce
+특정 값을 제거할 때 사용
+```java
+import java.util.Arrays;
+import java.util.HashSet;
+public class Sample0335 {
+	public static void main(String[] args) {
+		HashSet<String> set = new HashSet<>();
+		set.addAll(Arrays.asList("jump","to", "java"));
+		set.remove("to");
+		System.out.println(set);
+	}
+}
+```
+```
+[java, jump]
+```
+
++) TreeSet과 LinkedHashSet
+집합 자료형의 특징은 순서가 없다는 것이다. 이러한 집합을 입력한 순서대로 데이터를 가져오거나 오름차순으로 정렬된 데이터를 가져오고 싶은 경우
+- TreeSet: 값을 오름차순으로 정렬해 저장한다.
+- LinkedHashSet: 값을 입력한 순서대로 정렬한다.
+
+# 2-10 상수 집합
+enum 자료형은 서로 연관 있는 여러 개의 상수 집합을 정의할 때 사용  
+ex) 카페에서 판매하는 커피의 종류
+- 아메리카노
+- 아이스 아메리카노
+- 카페라떼
+
+상수 집합 사용 예
+```java
+public class Sample0336 {
+	enum CoffeeType{
+		AMERICANO,
+		ICE_AMERICANO,
+		CAFE_LATTE
+	};
+	public static void main(String[] args) {
+		System.out.println(CoffeeType.AMERICANO);
+		System.out.println(CoffeeType.ICE_AMERICANO);
+		System.out.println(CoffeeType.CAFE_LATTE);
+	}
+}
+```
+반복문
+```java
+public class Sample0337 {
+	enum CoffeeType{
+		AMERICANO,
+		ICE_AMERICANO,
+		CAFE_LATTE
+	};
+	
+	public static void main(String[] args) {
+		for(CoffeeType type: CoffeeType.values()) {
+			System.out.println(type);
+		}
+	}
+}
+```
+```
+AMERICANO
+ICE_AMERICANO
+CAFE_LATTE
+```
+
+## enum이 필요한 이유
+- 코드가 단순해지며 가독성이 좋아 명확함
+- 잘못된 값을 사용해 생길 수 있는 오류를 맏을 수 있다.
+
+# 02-11 형 변환과 final
+## 형 변환
+형 변환 : 자료형을 다른 자료형으로 바꾸는 것
+
+문자열을 정수로
+```java
+public class Sample0338 {
+	public static void main(String[] args) {
+		String num = "123";
+		int n = Integer.parseInt(num);
+	}
+}
+```
+
+정수를 문자열로
+```java
+public class Sample0338 {
+	public static void main(String[] args) {
+		int n = 123;
+		String num = "" + n;
+	}
+}
+```
+
+String.valueOf(정수), Interger.valueOf(정수) : 정수를 문자열로 변환
+```java
+public class Sample0339 {
+	public static void main(String[] args) {
+		int n = 123;
+		String num1 = String.valueOf(n);
+		String num2 = Integer.toString(n);
+	}
+}
+```
+
+소수점 포함 숫자 형태의 문자열 형 변환 : Double.parseDouble, Float.parseFloat
+```java
+public class Sample0339 {
+	public static void main(String[] args) {
+		String num = "123.456";
+		double d = Double.parseDouble(num);
+	}
+}
+```
+
+정수와 실수 사이의 형 변환
+- 실수를 정수로 변환하면 실수의 소수점은 제거 된다.
+```java
+public class Sample0339 {
+	public static void main(String[] args) {
+		int n1 = 123;
+		double d1 = n1;
+		System.out.println(d1); // 123.0
+
+		double d2 = 123.456;
+		int n2 = (int) d2; // 강제로 int 형으로 변경 : 캐스팅
+		System.out.println(d1); // 123
+	}
+}
+```
+
++) 살수 형태의 문자열을 정수형으로 바꾸는 경우에는
+1. Douvle.parseDouble() 이용해 실수로 변경 후
+2. 정수로 변경  
+-> NumberFormalException 발생
+
+## final
+자료형게 값을 단 한번만 설정할 수 있게 강제하는 키워드  
+값을 한번 설정하면 그 값을 다시 설정할 수 없음
+```java
+public class Sample0340 {
+	public static void main(String[] args) {
+		final int n = 123;
+		n = 456;
+	}
+}
+```
+```java
+import java.util.ArrayList;
+import java.util.Arrays;
+
+public class Sample0340 {
+    public static void main(String[] args) {
+        final ArrayList<String> a = new ArrayList<>(Arrays.asList("a", "b"));
+        a = new ArrayList<>(Arrays.asList("c", "d"));  // 컴파일 에러 발생
+    }
+}
+```
+컴파일 에러
+
++) Unmodifiable List
+리스트의 경우 final로 선언하여도 리스트에 값을 더하거나(add) 뺄(remove) 수 있다.
+**재할당**만 불가능  
+
+만약 값을 더하거나 빼는 것도 할 수 없게 하고 싶다면 List.of를 작성하여 수정할 수 없는 리스트(Unmodifiable List)로 만들기
+```java
+import java.util.List;
+public class Sample {
+	public static void main(String[] args){
+		final List<String> a = List.of("a", "b");
+		a.add("c")
+	}
+}
+```
